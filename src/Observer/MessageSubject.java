@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MessageSubject {
     private List<Observer> observers = new ArrayList<>();
+
     public void addObserver(Observer observer) {
         observers.add(observer);
     }

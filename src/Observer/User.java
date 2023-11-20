@@ -6,8 +6,9 @@ public class User implements Observer {
     public User(String name) {
         this.name = name;
     }
+
     @Override
     public void update(String message) {
-        System.out.println(name + " received a message: " + message);
+        System.out.println(name + " received a new message: " + message);
     }
 }

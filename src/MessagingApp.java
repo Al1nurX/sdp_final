@@ -20,27 +20,38 @@ public class MessagingApp {
 
         System.out.print("Enter message type (email/sms): ");
         String messageType = scanner.nextLine();
-
         Message strategy = MessageFactory.createMessage(messageType);
 
         MessageService externalService = new MessageService();
-        Message adapter = new MessageServiceAdapter(externalService);
+        System.out.print("Do you want to use the external service? (yes/no): ");
+        String useExternalServiceInput = scanner.nextLine();
+        externalService.setUseExternalService(useExternalServiceInput.equalsIgnoreCase("yes"));
 
-        Message urgent = new UrgentMessageDecorator(strategy);
+        Message adapter = new MessageServiceAdapter(externalService);
 
         MessageLogger logger = MessageLogger.getInstance();
 
         System.out.print("Enter message: ");
         String message = scanner.nextLine();
 
-        strategy.sendMessage(message);
+        System.out.print("Do you want to send an urgent message? (yes/no): ");
+        String sendUrgentMessage = scanner.nextLine();
+        Message urgent;
+
+        if (sendUrgentMessage.equalsIgnoreCase("yes")) {
+            urgent = new UrgentMessageDecorator(strategy);
+            urgent.sendMessage(message);
+        } else {
+            strategy.sendMessage(message);
+        }
 
         adapter.sendMessage(message);
-
-        urgent.sendMessage(message);
 
         logger.logMessage(message);
 
         messageSubject.notifyObservers(message);
+
+        scanner.close();
+
     }
 }

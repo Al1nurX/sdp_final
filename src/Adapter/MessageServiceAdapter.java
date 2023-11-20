@@ -8,6 +8,7 @@ public class MessageServiceAdapter implements Message {
     public MessageServiceAdapter(MessageService messageService) {
         this.messageService = messageService;
     }
+
     @Override
     public void sendMessage(String message) {
         messageService.sendMessageViaService(message);
