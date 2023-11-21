@@ -50,7 +50,14 @@ public class MessagingApp {
 
         logger.logMessage(message);
 
-        notificationManager.notifyObservers(message);
+        System.out.print("Do you want to remove the user? (yes/no): ");
+        String removeObserverInput = scanner.nextLine();
+        if (removeObserverInput.equalsIgnoreCase("yes")) {
+            notificationManager.removeObserver(user);
+            System.out.println("User removed.");
+        } else {
+            notificationManager.notifyObservers(message);
+        }
 
         scanner.close();
 
