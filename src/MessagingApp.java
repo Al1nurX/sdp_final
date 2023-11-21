@@ -15,8 +15,8 @@ public class MessagingApp {
         String name = scanner.nextLine();
         User user = new User(name);
 
-        MessageSubject messageSubject = new MessageSubject();
-        messageSubject.addObserver(user);
+        NotificationManager notificationManager = new NotificationManager();
+        notificationManager.addObserver(user);
 
         System.out.print("Enter message type (email/sms): ");
         String messageType = scanner.nextLine();
@@ -42,14 +42,15 @@ public class MessagingApp {
             urgent = new UrgentMessageDecorator(strategy);
             urgent.sendMessage(message);
         } else {
-            strategy.sendMessage(message);
+            MessageContext messageContext = new MessageContext(strategy);
+            messageContext.sendMessage(message);
         }
 
         adapter.sendMessage(message);
 
         logger.logMessage(message);
 
-        messageSubject.notifyObservers(message);
+        notificationManager.notifyObservers(message);
 
         scanner.close();
 
